@@ -8,7 +8,7 @@ import Users from "./pages/Users";
 import Vacancies from "./pages/Vacancies";
 import Contacts from "./pages/Contacts";
 import Login from "./pages/Login";
-import { Box, Container } from "@mui/material";
+import { Box, Toolbar } from "@mui/material"; // Added Toolbar
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,15 +31,18 @@ const App = () => {
   return (
     <Router>
       <Box sx={{ display: "flex", height: "100vh" }}>
-        {/* Show Sidebar only if authenticated */}
+        {/* Sidebar only when authenticated */}
         {isAuthenticated && <Sidebar />}
 
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
           {/* Navbar at the top */}
           <Navbar onLogout={handleLogout} isAuthenticated={isAuthenticated} />
 
-          {/* Main content area with padding and margin to avoid overlap */}
-          <Container sx={{ flexGrow: 1, marginTop: "80px", padding: "20px" }}>
+          {/* Toolbar pushes content below Navbar */}
+          <Toolbar />
+
+          {/* Main Content Area with scrolling */}
+          <Box sx={{ flexGrow: 1, overflowY: "auto", padding: "20px" }}>
             <Routes>
               <Route path="/login" element={<Login onLogin={handleLogin} />} />
               {isAuthenticated ? (
@@ -54,7 +57,7 @@ const App = () => {
                 <Route path="*" element={<Navigate to="/login" />} />
               )}
             </Routes>
-          </Container>
+          </Box>
 
           {/* Footer at the bottom */}
           <Footer />
